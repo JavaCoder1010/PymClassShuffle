@@ -19,6 +19,13 @@ Then open <http://localhost:8020>. (`index.html` can't be opened by double-click
 | `npm start` | Local server on port 8020 (`http-server`, fetched by `npx`) |
 | `npm test` | Engine, validator, layout and classroom tests (Node's built-in test runner, Node 20+) |
 | `npm run typecheck` | Type-checks the core modules from their JSDoc types (TypeScript fetched by `npx`) |
+| `npm run build:offline` | Builds `dist/ClassShuffle.html`, the offline version (esbuild fetched by `npx`) |
+
+### Offline version (no server, no internet)
+
+`npm run build:offline` bundles the whole app — HTML, CSS, JavaScript and icon — into a single `dist/ClassShuffle.html`. Copy it to a desktop or USB stick and open it with a double-click; it needs no server or internet. The PyM Technologies site offers it for download (its `npm run sync:classshuffle` rebuilds it).
+
+The offline version saves its data separately from the web version (its own storage keys). To bring a classroom from one to the other, use **Download classroom backup** in one and **Import backup file** in the other.
 
 Data is saved in the browser (localStorage) per classroom. **Saved → Download classroom backup** exports a `.json` file that can be imported on another computer or browser.
 
@@ -31,7 +38,7 @@ Data is saved in the browser (localStorage) per classroom. **Saved → Download 
 5. Adjust by hand: drag a student to another seat, or click a student and then a seat (this also works with the keyboard). A move that would break a Must rule is not made. ClassShuffle explains why, and you can cancel or relax that rule. Unmet preferences show as warnings.
 6. **Print** the chart, download a **CSV**, or **Save** arrangements to switch back to later.
 
-Undo/redo covers every change (Ctrl+Z / Ctrl+Shift+Z). A clearly labelled demo classroom with made-up students is available from the start screen.
+Undo/redo covers every change (Ctrl+Z / Ctrl+Shift+Z). A clearly labelled demo classroom with made-up students (already seated) is available from the start screen, or directly with `?demo` in the URL (used by the PyM Technologies portfolio site).
 
 ## How the seating engine works
 

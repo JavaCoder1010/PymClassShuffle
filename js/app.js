@@ -11,7 +11,7 @@ import { stageBarHTML, noticesHTML, trayHTML, inspectorHTML, savedPanelHTML, mov
 import { studentsPanelHTML } from './ui/students.js';
 import { rulesPanelHTML } from './ui/rules.js';
 import { layoutBarHTML, layoutInspectorHTML, dropSeat } from './ui/layoutTools.js';
-import { welcomeHTML, demoBannerHTML } from './ui/classrooms.js';
+import { welcomeHTML, demoBannerHTML, openDemo } from './ui/classrooms.js';
 import './export.js';
 
 const $ = (id) => document.getElementById(id);
@@ -22,9 +22,9 @@ const SAVE_ICON = { saved: 'check', saving: 'save', unsaved: 'dot', error: 'aler
 
 function headerHTML() {
   const doc = state.doc;
-  const brand = `<a class="brand" href="./" aria-label="${h(t('app.name'))}">
+  const brand = `<span class="brand" aria-label="${h(t('app.name'))}">
       <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
-      <span class="brand-name">${h(t('app.name'))}</span></a>`;
+      <span class="brand-name">${h(t('app.name'))}</span></span>`;
   if (!doc) return brand;
   const generating = state.ui.generating;
   return `${brand}
@@ -180,6 +180,8 @@ async function start() {
     toast(t('app.storageUnavailable'), { kind: 'error' });
   }
   await loadIndex();
+  // ?demo opens the demo classroom directly (used by the portfolio site's "Ver demo" link).
+  if (new URLSearchParams(location.search).has('demo')) return openDemo();
   const last = lastOpened();
   if (!(last && (await openClassroom(last)))) render();
 }

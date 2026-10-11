@@ -1,6 +1,8 @@
 // Optional demo classroom with made-up students, clearly labelled as a demo.
-import { createClassroom, createStudent, createRule } from './model.js';
+// It starts with a generated plan so there's something to look at right away.
+import { createClassroom, createStudent, createRule, newId } from './model.js';
 import { sortSeats } from './layout.js';
+import { generateSeating } from './engine.js';
 
 const NAMES = [
   'Ava Martin', 'Liam Chen', 'Mia Rossi', 'Noah Patel', 'Zoe Okafor', 'Ethan Novak',
@@ -23,5 +25,11 @@ export function createDemoClassroom({ name }) {
     createRule('front', { studentIds: [ava.id], params: { rows: 1 } }),
     createRule('fixed', { studentIds: [aria.id], seatIds: [seats.at(-1).id] }),
   ];
+  // Start with a plan so the demo shows a seated classroom right away.
+  const result = generateSeating(doc);
+  if (result.ok) {
+    const info = { seed: result.seed, generatedAt: doc.createdAt, uniqueness: result.uniqueness, ...result.stats };
+    doc.plan = { id: newId(), createdAt: doc.createdAt, assignments: result.assignments, generated: { assignments: result.assignments, info }, edited: false };
+  }
   return doc;
 }

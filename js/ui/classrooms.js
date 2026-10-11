@@ -79,6 +79,13 @@ function openClassroomsDialog() {
   );
 }
 
+/** Opens the demo classroom, creating it (already seated) the first time. */
+export async function openDemo() {
+  const existing = state.index.find((c) => c.demo);
+  if (existing && (await openClassroom(existing.id))) return;
+  await openNew(createDemoClassroom({ name: t('demo.name') }));
+}
+
 onClick({
   'open-classrooms': openClassroomsDialog,
   'new-classroom': () => openDialog(`<div class="dialog-form">${dialogHeader(h(t('welcome.createTitle')))}${createFormHTML()}</div>`),
@@ -86,11 +93,9 @@ onClick({
     closeDialog();
     if (!(await openClassroom(el.dataset.id))) toast(t('classrooms.missing'), { kind: 'error' });
   },
-  'open-demo': async () => {
+  'open-demo': () => {
     closeDialog();
-    const existing = state.index.find((c) => c.demo);
-    if (existing && (await openClassroom(existing.id))) return;
-    await openNew(createDemoClassroom({ name: t('demo.name') }));
+    return openDemo();
   },
   'rename-classroom': (el) => {
     const summary = state.index.find((c) => c.id === el.dataset.id);
