@@ -2,7 +2,7 @@
 
 **Randomized. Not random.** Classroom seating plans that follow the teacher's rules: who sits apart, who sits together, fixed and preferred seats, front or back rows, seats to avoid.
 
-Implements the spec in **Build ClassShuffle.docx**.
+Built from the ClassShuffle product spec.
 
 ## Running it
 
